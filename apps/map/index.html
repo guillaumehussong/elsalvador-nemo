@@ -53,10 +53,15 @@
         background: rgba(255, 255, 255, 0.06);
         border: 1px solid var(--border);
       }
+      .map-wrap {
+        position: relative;
+        min-height: 0;
+      }
       #map {
         background: #0a0e14;
         position: relative;
-        min-height: 0;
+        width: 100%;
+        height: 100%;
       }
     </style>
     <link rel="stylesheet" href="/src/style.css" />
@@ -109,10 +114,12 @@
         </div>
         <div class="hud-stats"><span id="visibleCount">—</span> visibles</div>
       </header>
-      <div id="map">
-        <div id="mapLoading" class="map-loading" aria-live="polite">
-          <div class="map-loading-bar"><div class="map-loading-bar-fill"></div></div>
-          <p class="map-loading-text">Cargando mapa…</p>
+      <div class="map-wrap">
+        <div id="map">
+          <div id="mapLoading" class="map-loading" aria-live="polite">
+            <div class="map-loading-bar"><div class="map-loading-bar-fill"></div></div>
+            <p class="map-loading-text">Cargando mapa…</p>
+          </div>
         </div>
         <aside id="legend" class="legend hidden" aria-label="Légende des couleurs"></aside>
       </div>

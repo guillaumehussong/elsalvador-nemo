@@ -103,6 +103,13 @@ body {
   color: var(--accent);
 }
 
+.map-wrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+}
+
 #map {
   position: relative;
   width: 100%;
@@ -113,59 +120,63 @@ body {
   position: absolute;
   left: 1rem;
   bottom: 1rem;
-  z-index: 2;
-  min-width: 10.5rem;
-  max-width: 14rem;
-  padding: 0.75rem 0.85rem;
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 6px;
+  z-index: 1000;
+  min-width: 12.6rem;
+  max-width: 16.8rem;
+  padding: 0.9rem 1.02rem;
+  background: rgba(12, 18, 28, 0.94);
+  border: 1px solid rgba(232, 237, 245, 0.42);
+  border-radius: 7px;
   backdrop-filter: blur(12px);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(240, 180, 41, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
   pointer-events: none;
 }
 
 .legend-title {
   font-family: Syne, sans-serif;
-  font-size: 0.7rem;
+  font-size: 0.84rem;
   font-weight: 600;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--accent);
-  margin-bottom: 0.55rem;
+  margin-bottom: 0.66rem;
 }
 
 .legend-swatches {
   list-style: none;
   display: grid;
-  gap: 0.35rem;
+  gap: 0.42rem;
 }
 
 .legend-swatches li {
   display: flex;
   align-items: center;
-  gap: 0.45rem;
-  font-size: 0.72rem;
+  gap: 0.54rem;
+  font-size: 0.86rem;
   color: var(--text);
 }
 
 .legend-swatch {
-  width: 0.65rem;
-  height: 0.65rem;
+  width: 0.78rem;
+  height: 0.78rem;
   border-radius: 50%;
   flex-shrink: 0;
-  box-shadow: 0 0 6px rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 7px rgba(255, 255, 255, 0.15);
 }
 
 .legend-gradient {
-  height: 0.55rem;
-  border-radius: 3px;
-  margin-bottom: 0.35rem;
+  height: 0.66rem;
+  border-radius: 4px;
+  margin-bottom: 0.42rem;
 }
 
 .legend-gradient-labels {
   display: flex;
   justify-content: space-between;
-  font-size: 0.65rem;
+  font-size: 0.78rem;
   color: var(--muted);
 }
 
