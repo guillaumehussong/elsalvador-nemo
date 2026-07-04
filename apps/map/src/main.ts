@@ -75,6 +75,13 @@ async function main() {
   }
   syncScopeButton();
 
+  const hudEl = document.querySelector(".hud")!;
+  const filtersToggle = document.getElementById("filtersToggle") as HTMLButtonElement;
+  filtersToggle.addEventListener("click", () => {
+    const open = hudEl.classList.toggle("hud-filters-open");
+    filtersToggle.setAttribute("aria-expanded", String(open));
+  });
+
   const [minLon, minLat, maxLon, maxLat] = manifest.bounds;
   const map = new maplibregl.Map({
     container: "map",
