@@ -5,6 +5,7 @@ import type { PickingInfo } from "@deck.gl/core";
 import type { Manifest } from "./colors";
 import { buildColors, passesFilter } from "./colors";
 import { legendSpec, legendTitle, renderLegend } from "./legend";
+import { setupMobileFilterPickers } from "./mobile-filters";
 import { hideLoading, personaPopupHtml, setLoading } from "./popup";
 
 const REVEAL_MS = 2800;
@@ -65,6 +66,7 @@ async function main() {
   const manifest = await fetchManifest();
   headline.textContent = `${manifest.row_count.toLocaleString("fr-FR")} personas`;
   populateDeptSelect(manifest);
+  setupMobileFilterPickers();
 
   let scope: "national" | "san_salvador" =
     manifest.default_scope === "san_salvador" ? "san_salvador" : "national";
