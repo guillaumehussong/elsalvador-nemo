@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="dark" />
+    <title>Focus group — Salvador Personas</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <main class="page">
+      <header class="header">
+        <h1>Focus group virtuel</h1>
+        <p class="subtitle">Réactions B2C · personas Nemotron · El Salvador</p>
+      </header>
+
+      <form id="focusForm" class="panel">
+        <label class="field">
+          <span>Stimulus (pub / hook / prix)</span>
+          <textarea
+            id="stimulus"
+            rows="4"
+            required
+            placeholder="Ex. Abonnement 10 USD/mes — accès illimité à…"
+          ></textarea>
+        </label>
+
+        <div class="row">
+          <label class="field">
+            <span>N personas</span>
+            <input id="n" type="number" min="1" max="25" value="8" />
+          </label>
+          <label class="field">
+            <span>Seed (optionnel)</span>
+            <input id="seed" type="number" placeholder="42" />
+          </label>
+        </div>
+
+        <label class="field">
+          <span>Département (optionnel)</span>
+          <input id="department" type="text" placeholder="San Salvador" />
+        </label>
+
+        <div class="actions">
+          <button type="button" id="estimateBtn" class="btn secondary">Estimer le coût</button>
+          <button type="submit" id="runBtn" class="btn primary">Lancer le focus group</button>
+        </div>
+
+        <p id="confirmHint" class="hint hidden">
+          N &gt; 15 : cochez pour confirmer le coût avant de lancer.
+          <label class="confirm"><input id="confirm" type="checkbox" /> Je confirme</label>
+        </p>
+      </form>
+
+      <section id="estimatePanel" class="panel hidden" aria-live="polite"></section>
+      <section id="resultPanel" class="panel hidden" aria-live="polite"></section>
+      <p id="error" class="error hidden" role="alert"></p>
+    </main>
+    <footer class="footer">
+      Personas :
+      <a href="https://huggingface.co/datasets/nvidia/Nemotron-Personas-El-Salvador" target="_blank" rel="noopener"
+        >NVIDIA / WideLabs</a
+      >
+      (CC BY 4.0) · Clé LLM jamais exposée au navigateur
+    </footer>
+    <script src="/app.js"></script>
+  </body>
+</html>

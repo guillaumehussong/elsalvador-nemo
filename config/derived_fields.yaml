@@ -1,0 +1,45 @@
+income:
+  base_by_education:
+    ninguno: 180
+    primaria: 250
+    secundaria: 320
+    bachillerato: 420
+    tecnico: 550
+    universitario: 780
+    posgrado: 1100
+  occupation_multipliers:
+    default: 1.0
+    overrides:
+      "Actividades de hospitales": 1.15
+      "Cultivo de caña de azúcar": 0.75
+  area_multiplier:
+    urbano: 1.12
+    rural: 0.88
+  age_curve:
+    peak: 45
+    width: 15
+    floor: 0.6
+  noise_std: 0.08
+
+adoption:
+  weights:
+    digital_score: 0.35
+    education: 0.25
+    age: 0.20
+    area: 0.20
+  education_score:
+    ninguno: 0.15
+    primaria: 0.25
+    secundaria: 0.35
+    bachillerato: 0.45
+    tecnico: 0.60
+    universitario: 0.75
+    posgrado: 0.90
+  age_curve:
+    peak: 32
+    width: 12
+    floor: 0.3
+  area_score:
+    urbano: 0.65
+    rural: 0.40
+  clamp: [0.05, 0.95]

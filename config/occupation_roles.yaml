@@ -1,0 +1,12 @@
+patterns:
+  merchant:
+    - "Comercio*"
+    - "Venta*"
+    - "Restaurantes*"
+  inactive:
+    - "*doméstico*"
+    - "*familiar no remunerado*"
+defaults:
+  unmatched: consumer
+overrides:
+  "Construcción de edificios": both

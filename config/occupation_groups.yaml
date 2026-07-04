@@ -1,0 +1,40 @@
+# 8 catégories pour coloration carte (patterns sur occupation HF)
+groups:
+  comercio:
+    - "Comercio*"
+    - "Venta*"
+    - "Restaurantes*"
+  servicios:
+    - "Actividades de servicios*"
+    - "Actividades de contabilidad*"
+    - "Actividades de arquitectura*"
+    - "Actividades de consultoría*"
+    - "Actividades de centros de llamadas*"
+    - "Actividades de seguridad*"
+    - "Actividades de telecomunicaciones*"
+    - "otras actividades de servicios*"
+  industria:
+    - "Fabricación*"
+    - "Elaboración*"
+    - "Construcción*"
+    - "Reparación*"
+    - "otras actividades de manufactura*"
+  agricultura:
+    - "Cultivo*"
+    - "Cría*"
+    - "Pesca*"
+    - "Silvicultura*"
+  salud:
+    - "Actividades de hospitales*"
+    - "Actividades de médicos*"
+    - "Actividades de enfermería*"
+    - "Actividades odontológicas*"
+  educacion:
+    - "Enseñanza*"
+    - "Educación*"
+  transporte:
+    - "Transporte*"
+    - "Actividades de mensajería*"
+    - "Actividades de apoyo al transporte*"
+  otro:
+    default: true

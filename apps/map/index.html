@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="dark" />
+    <title>Nemotron Personas — El Salvador</title>
+    <style>
+      :root {
+        --bg: #070b12;
+        --panel: rgba(12, 18, 28, 0.88);
+        --text: #e8edf5;
+        --muted: #8b9cb3;
+        --accent: #f0b429;
+        --border: rgba(240, 180, 41, 0.15);
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        background: var(--bg);
+        color: var(--text);
+        font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+        overflow: hidden;
+      }
+      #app {
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+        height: 100vh;
+      }
+      .hud,
+      .footer {
+        background: var(--panel);
+      }
+      .hud-title h1 {
+        color: var(--accent);
+        font-size: 1.35rem;
+        margin: 0;
+      }
+      .subtitle {
+        color: var(--muted);
+        font-size: 0.8rem;
+        margin: 0.15rem 0 0;
+      }
+      .hud-controls select,
+      .scope-btn {
+        color: var(--text);
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid var(--border);
+      }
+      #map {
+        background: #0a0e14;
+        position: relative;
+        min-height: 0;
+      }
+    </style>
+    <link rel="stylesheet" href="/src/style.css" />
+    <link rel="preload" href="/data/manifest.json" as="fetch" crossorigin="anonymous" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@500;700&family=IBM+Plex+Sans:wght@400;500&display=swap"
+      media="print"
+      onload="this.media='all'"
+    />
+    <link href="https://unpkg.com/maplibre-gl@4/dist/maplibre-gl.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div id="app">
+      <header class="hud">
+        <div class="hud-title">
+          <h1 id="headline">— personas</h1>
+          <p class="subtitle">El Salvador · Nemotron · una por una</p>
+        </div>
+        <div class="hud-controls">
+          <label
+            >Color
+            <select id="colorMode">
+              <option value="occupation">Ocupación</option>
+              <option value="age">Edad</option>
+              <option value="income">Ingreso</option>
+            </select>
+          </label>
+          <label
+            >Département
+            <select id="deptFilter"><option value="">Todo El Salvador</option></select></label
+          >
+          <label
+            >Sexe
+            <select id="sexFilter">
+              <option value="">Todos</option>
+              <option value="0">Femenino</option>
+              <option value="1">Masculino</option>
+            </select>
+          </label>
+          <label
+            >Área
+            <select id="areaFilter">
+              <option value="">Todas</option>
+              <option value="1">Urbano</option>
+              <option value="0">Rural</option>
+            </select>
+          </label>
+          <button type="button" id="scopeToggle" class="scope-btn">San Salvador</button>
+        </div>
+        <div class="hud-stats"><span id="visibleCount">—</span> visibles</div>
+      </header>
+      <div id="map">
+        <div id="mapLoading" class="map-loading" aria-live="polite">
+          <div class="map-loading-bar"><div class="map-loading-bar-fill"></div></div>
+          <p class="map-loading-text">Cargando mapa…</p>
+        </div>
+        <aside id="legend" class="legend hidden" aria-label="Légende des couleurs"></aside>
+      </div>
+      <footer class="footer">
+        <span
+          >Personas:
+          <a
+            href="https://huggingface.co/datasets/nvidia/Nemotron-Personas-El-Salvador"
+            target="_blank"
+            rel="noopener"
+            >NVIDIA / WideLabs</a
+          >
+          (CC BY 4.0)</span
+        >
+        <span> · </span>
+        <span
+          >Frontières:
+          <a href="https://www.geoboundaries.org" target="_blank" rel="noopener">geoBoundaries</a>
+          (William &amp; Mary, CC BY 4.0)</span
+        >
+      </footer>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
