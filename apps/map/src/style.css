@@ -18,12 +18,16 @@ body {
   background: var(--bg);
   color: var(--text);
   overflow: hidden;
+  min-height: 100vh;
+  min-height: 100dvh;
 }
 
 #app {
   display: grid;
-  grid-template-rows: auto 1fr auto;
+  grid-template-rows: auto minmax(0, 1fr) auto;
   height: 100vh;
+  height: 100dvh;
+  min-height: 100dvh;
 }
 
 .hud {
@@ -216,7 +220,9 @@ body {
 
 .footer {
   z-index: 2;
+  flex-shrink: 0;
   padding: 0.5rem 1rem;
+  padding-bottom: calc(0.5rem + env(safe-area-inset-bottom, 0px));
   font-size: 0.7rem;
   color: var(--muted);
   background: var(--panel);
@@ -428,7 +434,8 @@ body {
   .footer {
     font-size: 0.62rem;
     line-height: 1.35;
-    padding: 0.4rem 0.65rem;
+    padding: 0.45rem 0.65rem;
+    padding-bottom: calc(0.45rem + env(safe-area-inset-bottom, 0px));
   }
 
   .legend {
