@@ -6,10 +6,12 @@ __pycache__/
 .env
 .env.*
 !.env.example
-data/
+# Cache HF + parquet enrichi (racine repo uniquement)
+/data/
 node_modules/
 apps/map/node_modules/
 apps/map/dist/
+apps/map/src/*.js
 .venv/
 *.egg-info/
 dist/
