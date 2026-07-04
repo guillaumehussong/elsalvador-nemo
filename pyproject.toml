@@ -1,8 +1,8 @@
 [project]
 name = "salvador-personas"
 version = "0.1.0"
-description = "Toolkit personas Salvador — focus group & sim (Nemotron dataset)"
-readme = "PLAN.md"
+description = "148k Nemotron personas on an interactive El Salvador map + local focus-group toolkit"
+readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
     "datasets>=3.0.0",
