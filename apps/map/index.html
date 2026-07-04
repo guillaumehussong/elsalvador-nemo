@@ -64,6 +64,7 @@
         height: 100%;
       }
     </style>
+    <link href="https://unpkg.com/maplibre-gl@4/dist/maplibre-gl.css" rel="stylesheet" />
     <link rel="stylesheet" href="/src/style.css" />
     <link rel="preload" href="/data/manifest.json" as="fetch" crossorigin="anonymous" />
     <link
@@ -72,7 +73,6 @@
       media="print"
       onload="this.media='all'"
     />
-    <link href="https://unpkg.com/maplibre-gl@4/dist/maplibre-gl.css" rel="stylesheet" />
   </head>
   <body>
     <div id="app">
@@ -122,6 +122,12 @@
           </div>
         </div>
         <aside id="legend" class="legend hidden" aria-label="Légende des couleurs"></aside>
+        <div id="personaPopup" class="persona-popup hidden" aria-live="polite">
+          <button type="button" id="personaPopupClose" class="persona-popup-close" aria-label="Cerrar">
+            ×
+          </button>
+          <div id="personaPopupBody"></div>
+        </div>
       </div>
       <footer class="footer">
         <span

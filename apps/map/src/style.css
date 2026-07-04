@@ -260,23 +260,36 @@ body {
   color: #f87171;
 }
 
-.persona-popup .maplibre-gl-popup-content {
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 0;
+.persona-popup {
+  position: absolute;
+  z-index: 1000;
+  max-width: 18rem;
+  background: rgba(12, 18, 28, 0.96);
   color: var(--text);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(232, 237, 245, 0.42);
+  border-radius: 8px;
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(240, 180, 41, 0.28);
+  pointer-events: auto;
+  transform: translate(-50%, calc(-100% - 12px));
 }
 
-.persona-popup .maplibre-gl-popup-tip {
-  border-top-color: var(--panel);
-}
-
-.persona-popup .maplibre-gl-popup-close-button {
+.persona-popup-close {
+  position: absolute;
+  top: 0.35rem;
+  right: 0.45rem;
+  border: none;
+  background: transparent;
   color: var(--muted);
-  font-size: 1.1rem;
-  padding: 0.35rem 0.5rem;
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0.15rem 0.35rem;
+}
+
+.persona-popup-close:hover {
+  color: var(--text);
 }
 
 .popup-card {
@@ -289,6 +302,7 @@ body {
   font-weight: 700;
   color: var(--accent);
   font-size: 0.95rem;
+  padding-right: 1.25rem;
 }
 
 .popup-sub {
@@ -321,4 +335,6 @@ body {
 .popup-fields dd {
   margin: 0;
   line-height: 1.35;
+  color: var(--text);
+  font-weight: 500;
 }

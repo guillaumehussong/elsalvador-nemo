@@ -85,14 +85,36 @@ async function main() {
     bearing: 0,
   });
 
-  let popup = new maplibregl.Popup({
-    closeButton: true,
-    closeOnClick: true,
-    maxWidth: "300px",
-    className: "persona-popup",
-  });
+  const popupEl = document.getElementById("personaPopup")!;
+  const popupBody = document.getElementById("personaPopupBody")!;
+  const popupClose = document.getElementById("personaPopupClose")!;
+  let popupLngLat: [number, number] | null = null;
+
+  function hidePersonaPopup() {
+    popupLngLat = null;
+    popupEl.classList.add("hidden");
+    popupBody.innerHTML = "";
+  }
+
+  function updatePersonaPopupPosition() {
+    if (!popupLngLat || popupEl.classList.contains("hidden")) return;
+    const p = map.project(popupLngLat);
+    popupEl.style.left = `${p.x}px`;
+    popupEl.style.top = `${p.y}px`;
+  }
+
+  popupClose.onclick = hidePersonaPopup;
+
+  let suppressMapClick = false;
 
   map.once("load", () => fitScope(0));
+  map.on("move", updatePersonaPopupPosition);
+  map.on("zoom", updatePersonaPopupPosition);
+  map.on("resize", updatePersonaPopupPosition);
+  map.on("click", () => {
+    if (suppressMapClick) return;
+    hidePersonaPopup();
+  });
 
   let colorMode = "occupation";
   let deptFilter: number | null = null;
@@ -202,15 +224,20 @@ async function main() {
     if (globalIdx == null) return;
     const lon = positions[globalIdx * 2];
     const lat = positions[globalIdx * 2 + 1];
-    popup.remove();
-    popup
-      .setLngLat([lon, lat])
-      .setHTML(personaPopupHtml(manifest, attrs, globalIdx))
-      .addTo(map);
+    popupLngLat = [lon, lat];
+    popupBody.innerHTML = personaPopupHtml(manifest, attrs, globalIdx);
+    popupEl.classList.remove("hidden");
+    updatePersonaPopupPosition();
   }
 
   function onLayerClick(info: PickingInfo) {
-    if (info.index != null && info.index >= 0) showPersona(info);
+    if (info.index != null && info.index >= 0) {
+      suppressMapClick = true;
+      showPersona(info);
+      window.setTimeout(() => {
+        suppressMapClick = false;
+      }, 0);
+    }
   }
 
   function layerCursor({ isHovering }: { isHovering: boolean }) {
