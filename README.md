@@ -53,13 +53,4 @@ Fully static site, no API keys.
 
 Root `wrangler.toml` points to `apps/map/dist`. Recommended env var: `NODE_VERSION=20`.
 
-## Focus group web UI
-
-**LOCAL ONLY.** Do not expose publicly without auth and rate limiting.
-
-```bash
-uv sync --extra focus-api --extra stage1
-./scripts/serve_focus.sh   # http://127.0.0.1:8080
-```
-
-The LLM API key stays on the server. It is never sent to the browser.
+Optional LLM focus group (local dev only): see [PLAN.md](PLAN.md).
