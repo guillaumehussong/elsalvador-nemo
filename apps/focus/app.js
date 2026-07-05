@@ -8,16 +8,19 @@ const confirmHint = document.getElementById("confirmHint");
 const confirmBox = document.getElementById("confirm");
 const nInput = document.getElementById("n");
 
+let lastEstimate = null;
+let lastRun = null;
+
 function payload() {
   const dept = document.getElementById("department").value.trim();
   const seedRaw = document.getElementById("seed").value.trim();
   const n = Number(nInput.value);
   if (!Number.isFinite(n) || n < 1 || n > 25) {
-    throw new Error("N personas doit être entre 1 et 25.");
+    throw new Error(t("err_n_range"));
   }
   const stimulus = document.getElementById("stimulus").value.trim();
   if (!stimulus) {
-    throw new Error("Le stimulus ne peut pas être vide.");
+    throw new Error(t("err_stimulus_empty"));
   }
   return {
     stimulus,
@@ -43,8 +46,8 @@ function setBusy(busy, n = 8) {
   estimateBtn.disabled = busy;
   runBtn.disabled = busy;
   runBtn.textContent = busy
-    ? `${n} appels LLM… (~${Math.ceil(n * 8 / 60)} min)`
-    : "Lancer le focus group";
+    ? t("busy", { n, min: Math.ceil((n * 8) / 60) })
+    : t("run_btn");
 }
 
 function updateConfirmHint() {
@@ -95,26 +98,29 @@ document.addEventListener("keydown", (e) => {
 });
 
 function renderEstimate(data) {
+  lastEstimate = data;
+  const locale = t("locale");
   estimatePanel.innerHTML = `
-    <h2 class="result-title">Estimation</h2>
+    <h2 class="result-title">${t("estimate_title")}</h2>
     <div class="stats">
-      <div>Personas : <strong>${data.n}</strong></div>
-      <div>Tokens entrée (est.) : <strong>${data.estimated_input_tokens.toLocaleString("fr-FR")}</strong></div>
-      <div>Tokens sortie (est.) : <strong>${data.estimated_output_tokens.toLocaleString("fr-FR")}</strong></div>
-      <div>Coût estimé : <strong>$${data.estimated_cost_usd.toFixed(4)}</strong></div>
-      ${data.confirm_required ? "<div>Confirmation requise (N &gt; 15)</div>" : ""}
+      <div>${t("est_personas")} : <strong>${data.n}</strong></div>
+      <div>${t("est_in")} : <strong>${data.estimated_input_tokens.toLocaleString(locale)}</strong></div>
+      <div>${t("est_out")} : <strong>${data.estimated_output_tokens.toLocaleString(locale)}</strong></div>
+      <div>${t("est_cost")} : <strong>$${data.estimated_cost_usd.toFixed(4)}</strong></div>
+      ${data.confirm_required ? `<div>${t("est_confirm_required")}</div>` : ""}
     </div>
   `;
   estimatePanel.classList.remove("hidden");
 }
 
 function renderRun(data) {
+  lastRun = data;
   const run = data.run;
   const agg = run.aggregate;
   const objections =
     agg.top_objections?.length > 0
       ? `<ul class="objections">${agg.top_objections.map((o) => `<li>${escapeHtml(o)}</li>`).join("")}</ul>`
-      : '<p class="hint">Aucune objection dominante</p>';
+      : `<p class="hint">${t("no_objections")}</p>`;
 
   const verbatims =
     agg.sample_verbatims?.length > 0
@@ -122,19 +128,19 @@ function renderRun(data) {
       : "";
 
   resultPanel.innerHTML = `
-    <h2 class="result-title">Résultat · score ${agg.mean_interest_score}/10</h2>
-    <div class="stats">
-      <div>Modèle : <strong>${escapeHtml(run.model)}</strong></div>
-      <div>Sentiments : <strong>${escapeHtml(JSON.stringify(agg.sentiment_counts))}</strong></div>
-      <div>Coût réel (est.) : <strong>${run.cost_actual_usd != null ? `$${run.cost_actual_usd.toFixed(4)}` : "—"}</strong></div>
-      <div>Fichier : <strong>${escapeHtml(data.saved_to || "—")}</strong></div>
-    </div>
-    <h3 class="result-title">Objections</h3>
+    <h2 class="result-title">${t("result_title", { score: agg.mean_interest_score })}</h2>
+    <h3 class="result-title">${t("objections_title")}</h3>
     ${objections}
-    ${verbatims ? `<h3 class="result-title">Verbatims</h3>${verbatims}` : ""}
+    ${verbatims ? `<h3 class="result-title">${t("verbatims_title")}</h3>${verbatims}` : ""}
   `;
   resultPanel.classList.remove("hidden");
 }
+
+document.addEventListener("focus:langchange", () => {
+  if (!runBtn.disabled) runBtn.textContent = t("run_btn");
+  if (lastEstimate) renderEstimate(lastEstimate);
+  if (lastRun) renderRun(lastRun);
+});
 
 function escapeHtml(s) {
   return String(s)
@@ -183,7 +189,7 @@ form.addEventListener("submit", async (e) => {
     return;
   }
   if (body.n > 15 && !body.confirm) {
-    showError("N > 15 : cochez la confirmation avant de lancer.");
+    showError(t("err_confirm"));
     return;
   }
   setBusy(true, body.n);
