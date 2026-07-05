@@ -59,6 +59,41 @@ function updateConfirmHint() {
 nInput.addEventListener("input", updateConfirmHint);
 updateConfirmHint();
 
+document.querySelectorAll(".info-btn").forEach((btn) => {
+  const wrap = btn.closest(".info-wrap");
+  if (!wrap) return;
+
+  btn.addEventListener("click", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const open = wrap.classList.toggle("is-open");
+    btn.setAttribute("aria-expanded", String(open));
+    document.querySelectorAll(".info-wrap.is-open").forEach((other) => {
+      if (other !== wrap) {
+        other.classList.remove("is-open");
+        const otherBtn = other.querySelector(".info-btn");
+        otherBtn?.setAttribute("aria-expanded", "false");
+      }
+    });
+  });
+});
+
+document.addEventListener("click", (e) => {
+  if (e.target.closest(".info-wrap")) return;
+  document.querySelectorAll(".info-wrap.is-open").forEach((wrap) => {
+    wrap.classList.remove("is-open");
+    wrap.querySelector(".info-btn")?.setAttribute("aria-expanded", "false");
+  });
+});
+
+document.addEventListener("keydown", (e) => {
+  if (e.key !== "Escape") return;
+  document.querySelectorAll(".info-wrap.is-open").forEach((wrap) => {
+    wrap.classList.remove("is-open");
+    wrap.querySelector(".info-btn")?.setAttribute("aria-expanded", "false");
+  });
+});
+
 function renderEstimate(data) {
   estimatePanel.innerHTML = `
     <h2 class="result-title">Estimation</h2>

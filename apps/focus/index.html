@@ -14,103 +14,179 @@
         <p class="subtitle">Réactions B2C · personas Nemotron · El Salvador</p>
       </header>
 
-      <section class="intro panel" aria-labelledby="intro-heading">
-        <h2 id="intro-heading" class="intro-title">What is this?</h2>
-        <p class="intro-lead">
-          This tool runs a <strong>virtual focus group</strong> against synthetic Salvadoran consumer
-          personas from the Nemotron dataset. You paste a stimulus (ad, offer, hook); the system samples
-          <em>N</em> matching personas and asks an LLM to role-play each one in Salvadoran Spanish.
-        </p>
-        <ul class="intro-list">
-          <li>
-            <strong>You get:</strong> mean interest score (1–10), sentiment breakdown, recurring
-            objections, and sample verbatim quotes.
-          </li>
-          <li>
-            <strong>Use it for:</strong> early messaging tests, price sensitivity, objection mining —
-            before spending on real field research.
-          </li>
-          <li>
-            <strong>Not a substitute for:</strong> real users, legal/compliance review, or statistically
-            representative surveys.
-          </li>
-        </ul>
-        <p class="intro-note">
-          Each persona = one LLM call (~8 s). Estimate cost before running. Responses are in Spanish;
-          write your stimulus in Spanish when possible.
-        </p>
-      </section>
+      <details class="intro panel">
+        <summary class="intro-summary">What is this?</summary>
+        <div class="intro-body">
+          <p class="intro-lead">
+            This tool runs a <strong>virtual focus group</strong> against synthetic Salvadoran consumer
+            personas from the Nemotron dataset. You paste a stimulus (ad, offer, hook); the system samples
+            <em>N</em> matching personas and asks an LLM to role-play each one in Salvadoran Spanish.
+          </p>
+          <ul class="intro-list">
+            <li>
+              <strong>You get:</strong> mean interest score (1–10), sentiment breakdown, recurring
+              objections, and sample verbatim quotes.
+            </li>
+            <li>
+              <strong>Use it for:</strong> early messaging tests, price sensitivity, objection mining before
+              spending on real field research.
+            </li>
+            <li>
+              <strong>Not a substitute for:</strong> real users, legal/compliance review, or statistically
+              representative surveys.
+            </li>
+          </ul>
+          <p class="intro-note">
+            Each persona = one LLM call (~8 s). Estimate cost before running. Responses are in Spanish;
+            write your stimulus in Spanish when possible.
+          </p>
+        </div>
+      </details>
 
       <form id="focusForm" class="panel">
         <h2 class="form-title">Configure a run</h2>
 
         <label class="field">
-          <span>Stimulus (pub / hook / prix)</span>
+          <span class="field-label">
+            <span>Stimulus (pub / hook / prix)</span>
+            <span class="info-wrap">
+              <button
+                type="button"
+                class="info-btn"
+                aria-label="Help: stimulus"
+                aria-expanded="false"
+                aria-controls="help-stimulus"
+                data-help="help-stimulus"
+              >
+                i
+              </button>
+              <span id="help-stimulus" class="info-popover" role="tooltip">
+                The message you want to test: ad copy, landing hook, pricing line, or product pitch. This
+                text is injected into every persona prompt. Spanish stimuli tend to produce more natural
+                verbatims; keep it concrete (price, location, benefit, CTA).
+              </span>
+            </span>
+          </span>
           <textarea
             id="stimulus"
             rows="5"
             required
-            placeholder="Ej. Suscripción $10/mes — acceso ilimitado a clases de yoga prenatal en Antiguo Cuscatlán…"
-            aria-describedby="help-stimulus"
+            placeholder="Ej. Suscripción $10/mes, acceso ilimitado a clases de yoga prenatal en Antiguo Cuscatlán…"
           ></textarea>
-          <p id="help-stimulus" class="field-help">
-            The message you want to test: ad copy, landing hook, pricing line, or product pitch. This
-            text is injected into every persona prompt. Spanish stimuli tend to produce more natural
-            verbatims; keep it concrete (price, location, benefit, CTA).
-          </p>
         </label>
 
         <div class="row">
           <label class="field">
-            <span>N personas</span>
-            <input id="n" type="number" min="1" max="25" value="8" aria-describedby="help-n" />
-            <p id="help-n" class="field-help">
-              Number of virtual participants (1–25). Default 8 balances cost and signal. Higher N
-              smooths outliers but increases LLM cost and runtime (~8 s per persona).
-            </p>
+            <span class="field-label">
+              <span>N personas</span>
+              <span class="info-wrap">
+                <button
+                  type="button"
+                  class="info-btn"
+                  aria-label="Help: N personas"
+                  aria-expanded="false"
+                  aria-controls="help-n"
+                  data-help="help-n"
+                >
+                  i
+                </button>
+                <span id="help-n" class="info-popover" role="tooltip">
+                  Number of virtual participants (1–25). Default 8 balances cost and signal. Higher N
+                  smooths outliers but increases LLM cost and runtime (~8 s per persona).
+                </span>
+              </span>
+            </span>
+            <input id="n" type="number" min="1" max="25" value="8" />
           </label>
           <label class="field">
-            <span>Seed (optionnel)</span>
-            <input id="seed" type="number" placeholder="42" aria-describedby="help-seed" />
-            <p id="help-seed" class="field-help">
-              Optional integer for reproducible sampling. Same seed + same filters → same personas on
-              rerun. Leave empty for a random draw each time.
-            </p>
+            <span class="field-label">
+              <span>Seed (optionnel)</span>
+              <span class="info-wrap">
+                <button
+                  type="button"
+                  class="info-btn"
+                  aria-label="Help: seed"
+                  aria-expanded="false"
+                  aria-controls="help-seed"
+                  data-help="help-seed"
+                >
+                  i
+                </button>
+                <span id="help-seed" class="info-popover" role="tooltip">
+                  Optional integer for reproducible sampling. Same seed + same filters gives the same personas
+                  on rerun. Leave empty for a random draw each time.
+                </span>
+              </span>
+            </span>
+            <input id="seed" type="number" placeholder="42" />
           </label>
         </div>
 
         <label class="field">
-          <span>Département (optionnel)</span>
-          <input
-            id="department"
-            type="text"
-            placeholder="San Salvador"
-            aria-describedby="help-department"
-          />
-          <p id="help-department" class="field-help">
-            Restrict sampling to one department, e.g. <code>San Salvador</code>, <code>La Libertad</code>,
-            <code>Santa Ana</code>. Exact spelling required (see map dataset). Leave empty for all of El
-            Salvador. Municipality filter is CLI-only for now.
-          </p>
+          <span class="field-label">
+            <span>Département (optionnel)</span>
+            <span class="info-wrap">
+              <button
+                type="button"
+                class="info-btn"
+                aria-label="Help: department"
+                aria-expanded="false"
+                aria-controls="help-department"
+                data-help="help-department"
+              >
+                i
+              </button>
+              <span id="help-department" class="info-popover" role="tooltip">
+                Restrict sampling to one department, e.g. <code>San Salvador</code>, <code>La Libertad</code>,
+                <code>Santa Ana</code>. Exact spelling required (see map dataset). Leave empty for all of El
+                Salvador. Municipality filter is CLI-only for now.
+              </span>
+            </span>
+          </span>
+          <input id="department" type="text" placeholder="San Salvador" />
         </label>
 
         <div class="actions">
           <button type="button" id="estimateBtn" class="btn secondary">Estimer le coût</button>
           <button type="submit" id="runBtn" class="btn primary">Lancer le focus group</button>
+          <span class="info-wrap actions-info">
+            <button
+              type="button"
+              class="info-btn"
+              aria-label="Help: actions"
+              aria-expanded="false"
+              aria-controls="help-actions"
+              data-help="help-actions"
+            >
+              i
+            </button>
+            <span id="help-actions" class="info-popover" role="tooltip">
+              <strong>Estimate cost:</strong> token/cost preview, no LLM calls.
+              <strong>Run focus group:</strong> executes N persona interviews and saves JSON under
+              <code>data/runs/</code> on the server.
+            </span>
+          </span>
         </div>
-        <p class="field-help actions-help">
-          <strong>Estimate cost</strong> — token/cost preview, no LLM calls.
-          <strong>Run focus group</strong> — executes N parallel persona interviews and saves JSON under
-          <code>data/runs/</code> on the server.
-        </p>
 
         <p id="confirmHint" class="hint hidden">
           N &gt; 15 : cochez pour confirmer le coût avant de lancer.
           <label class="confirm"><input id="confirm" type="checkbox" /> Je confirme</label>
-          <span class="field-help block-help"
-            >Runs above 15 personas require explicit confirmation because LLM cost and latency scale
-            linearly.</span
-          >
+          <span class="info-wrap confirm-info">
+            <button
+              type="button"
+              class="info-btn"
+              aria-label="Help: confirmation"
+              aria-expanded="false"
+              aria-controls="help-confirm"
+              data-help="help-confirm"
+            >
+              i
+            </button>
+            <span id="help-confirm" class="info-popover" role="tooltip">
+              Runs above 15 personas require explicit confirmation because LLM cost and latency scale
+              linearly.
+            </span>
+          </span>
         </p>
       </form>
 
