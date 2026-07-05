@@ -14,41 +14,103 @@
         <p class="subtitle">Réactions B2C · personas Nemotron · El Salvador</p>
       </header>
 
+      <section class="intro panel" aria-labelledby="intro-heading">
+        <h2 id="intro-heading" class="intro-title">What is this?</h2>
+        <p class="intro-lead">
+          This tool runs a <strong>virtual focus group</strong> against synthetic Salvadoran consumer
+          personas from the Nemotron dataset. You paste a stimulus (ad, offer, hook); the system samples
+          <em>N</em> matching personas and asks an LLM to role-play each one in Salvadoran Spanish.
+        </p>
+        <ul class="intro-list">
+          <li>
+            <strong>You get:</strong> mean interest score (1–10), sentiment breakdown, recurring
+            objections, and sample verbatim quotes.
+          </li>
+          <li>
+            <strong>Use it for:</strong> early messaging tests, price sensitivity, objection mining —
+            before spending on real field research.
+          </li>
+          <li>
+            <strong>Not a substitute for:</strong> real users, legal/compliance review, or statistically
+            representative surveys.
+          </li>
+        </ul>
+        <p class="intro-note">
+          Each persona = one LLM call (~8 s). Estimate cost before running. Responses are in Spanish;
+          write your stimulus in Spanish when possible.
+        </p>
+      </section>
+
       <form id="focusForm" class="panel">
+        <h2 class="form-title">Configure a run</h2>
+
         <label class="field">
           <span>Stimulus (pub / hook / prix)</span>
           <textarea
             id="stimulus"
-            rows="4"
+            rows="5"
             required
-            placeholder="Ex. Abonnement 10 USD/mes — accès illimité à…"
+            placeholder="Ej. Suscripción $10/mes — acceso ilimitado a clases de yoga prenatal en Antiguo Cuscatlán…"
+            aria-describedby="help-stimulus"
           ></textarea>
+          <p id="help-stimulus" class="field-help">
+            The message you want to test: ad copy, landing hook, pricing line, or product pitch. This
+            text is injected into every persona prompt. Spanish stimuli tend to produce more natural
+            verbatims; keep it concrete (price, location, benefit, CTA).
+          </p>
         </label>
 
         <div class="row">
           <label class="field">
             <span>N personas</span>
-            <input id="n" type="number" min="1" max="25" value="8" />
+            <input id="n" type="number" min="1" max="25" value="8" aria-describedby="help-n" />
+            <p id="help-n" class="field-help">
+              Number of virtual participants (1–25). Default 8 balances cost and signal. Higher N
+              smooths outliers but increases LLM cost and runtime (~8 s per persona).
+            </p>
           </label>
           <label class="field">
             <span>Seed (optionnel)</span>
-            <input id="seed" type="number" placeholder="42" />
+            <input id="seed" type="number" placeholder="42" aria-describedby="help-seed" />
+            <p id="help-seed" class="field-help">
+              Optional integer for reproducible sampling. Same seed + same filters → same personas on
+              rerun. Leave empty for a random draw each time.
+            </p>
           </label>
         </div>
 
         <label class="field">
           <span>Département (optionnel)</span>
-          <input id="department" type="text" placeholder="San Salvador" />
+          <input
+            id="department"
+            type="text"
+            placeholder="San Salvador"
+            aria-describedby="help-department"
+          />
+          <p id="help-department" class="field-help">
+            Restrict sampling to one department, e.g. <code>San Salvador</code>, <code>La Libertad</code>,
+            <code>Santa Ana</code>. Exact spelling required (see map dataset). Leave empty for all of El
+            Salvador. Municipality filter is CLI-only for now.
+          </p>
         </label>
 
         <div class="actions">
           <button type="button" id="estimateBtn" class="btn secondary">Estimer le coût</button>
           <button type="submit" id="runBtn" class="btn primary">Lancer le focus group</button>
         </div>
+        <p class="field-help actions-help">
+          <strong>Estimate cost</strong> — token/cost preview, no LLM calls.
+          <strong>Run focus group</strong> — executes N parallel persona interviews and saves JSON under
+          <code>data/runs/</code> on the server.
+        </p>
 
         <p id="confirmHint" class="hint hidden">
           N &gt; 15 : cochez pour confirmer le coût avant de lancer.
           <label class="confirm"><input id="confirm" type="checkbox" /> Je confirme</label>
+          <span class="field-help block-help"
+            >Runs above 15 personas require explicit confirmation because LLM cost and latency scale
+            linearly.</span
+          >
         </p>
       </form>
 
@@ -61,7 +123,7 @@
       <a href="https://huggingface.co/datasets/nvidia/Nemotron-Personas-El-Salvador" target="_blank" rel="noopener"
         >NVIDIA / WideLabs</a
       >
-      (CC BY 4.0) · Clé LLM jamais exposée au navigateur
+      (CC BY 4.0) · Clé LLM jamais exposée au navigateur · LOCAL ONLY
     </footer>
     <script src="/app.js"></script>
   </body>
