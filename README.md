@@ -1,6 +1,6 @@
-# El Salvador Nemotron — 148k personas on a map
+# El Salvador Nemotron: 148k personas on a map
 
-**[→ Live map](https://elsalvador-nemo.guillaumehussong.workers.dev)** · [Source](https://github.com/guillaumehussong/elsalvador-nemo)
+[Live map](https://elsalvador-nemo.guillaumehussong.workers.dev) | [Source](https://github.com/guillaumehussong/elsalvador-nemo)
 
 148,000 personas from the [NVIDIA Nemotron-Personas-El-Salvador](https://huggingface.co/datasets/nvidia/Nemotron-Personas-El-Salvador) dataset, geolocated on an interactive map of El Salvador (deck.gl + MapLibre). Filter by color (occupation, age, income), department, sex, and urban/rural area. Click a point to see a synthetic profile.
 
@@ -8,13 +8,11 @@
 
 Local Python toolkit: Polars sampling and optional LLM focus groups (APIYI).
 
-## Licenses & attribution
+## Licenses and attribution
 
-| Item | License |
-|------|---------|
-| Code | [MIT](LICENSE) |
-| Nemotron personas | [CC BY 4.0](https://huggingface.co/datasets/nvidia/Nemotron-Personas-El-Salvador) — NVIDIA / WideLabs |
-| Admin boundaries | [CC BY 4.0](https://www.geoboundaries.org) — geoBoundaries / William & Mary |
+- **Code:** [MIT](LICENSE)
+- **Nemotron personas:** [CC BY 4.0](https://huggingface.co/datasets/nvidia/Nemotron-Personas-El-Salvador) (NVIDIA / WideLabs)
+- **Admin boundaries:** [CC BY 4.0](https://www.geoboundaries.org) (geoBoundaries / William & Mary)
 
 ## Quickstart (local dev)
 
@@ -33,7 +31,7 @@ uv run python scripts/build_enriched_cache.py
 # Map
 uv run sv-build-map
 cd apps/map && npm ci && npm run build && npm run preview:host
-# → http://localhost:4173
+# http://localhost:4173
 
 # Explore personas (CLI)
 uv run sv-personas --department "San Salvador" --sample 3
@@ -43,27 +41,25 @@ uv sync --extra stage1
 uv run sv-focus-group -s "Your stimulus" -n 8 --seed 42
 ```
 
-Map bundle files `apps/map/public/data/*.bin` are committed (~2.3 MB) — a simple clone does not require regenerating the map.
+Map bundle files `apps/map/public/data/*.bin` are committed (~2.3 MB). A simple clone does not require regenerating the map.
 
 ## Map deployment (Cloudflare Workers)
 
 Fully static site, no API keys.
 
-| Setting | Value |
-|---------|-------|
-| Build command | `cd apps/map && npm ci && npm run build` |
-| Deploy command | `npx wrangler deploy` |
-| Root directory | *(empty — repo root)* |
+- **Build command:** `cd apps/map && npm ci && npm run build`
+- **Deploy command:** `npx wrangler deploy`
+- **Root directory:** empty (repo root)
 
 Root `wrangler.toml` points to `apps/map/dist`. Recommended env var: `NODE_VERSION=20`.
 
 ## Focus group web UI
 
-**LOCAL ONLY** — do not expose publicly without auth and rate limiting.
+**LOCAL ONLY.** Do not expose publicly without auth and rate limiting.
 
 ```bash
 uv sync --extra focus-api --extra stage1
 ./scripts/serve_focus.sh   # http://127.0.0.1:8080
 ```
 
-The LLM API key stays on the server; it is never sent to the browser.
+The LLM API key stays on the server. It is never sent to the browser.
