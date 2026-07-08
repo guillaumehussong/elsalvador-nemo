@@ -56,7 +56,7 @@ def _sample_personas(body: FocusRequest):
     if body.n > available:
         raise HTTPException(
             status_code=400,
-            detail=f"Seulement {available} personas après filtres (demandé: {body.n})",
+            detail=f"Only {available} personas match filters (requested: {body.n})",
         )
     return gen.sample(body.n, seed=body.seed)
 
@@ -86,14 +86,14 @@ def run_focus(body: FocusRequest) -> dict:
     if body.n > CONFIRM_ABOVE_N and not body.confirm:
         raise HTTPException(
             status_code=400,
-            detail=f"N={body.n} > {CONFIRM_ABOVE_N} : envoyer confirm=true",
+            detail=f"N={body.n} > {CONFIRM_ABOVE_N}: send confirm=true",
         )
 
     personas = _sample_personas(body)
     try:
         client = create_llm_client()
     except Exception as exc:
-        raise HTTPException(status_code=503, detail=f"LLM non configuré : {exc}") from exc
+        raise HTTPException(status_code=503, detail=f"LLM not configured: {exc}") from exc
 
     run = run_focus_group(client=client, personas=personas, stimulus=body.stimulus, seed=body.seed)
 

@@ -12,7 +12,7 @@ from salvador_personas.dataset.cache import enriched_parquet_path, project_root
 def main() -> None:
     path = enriched_parquet_path()
     if not path.exists():
-        print("Cache enrichi absent. Lancer sv-preload d'abord.", file=sys.stderr)
+        print("Enriched cache missing. Run sv-preload first.", file=sys.stderr)
         sys.exit(1)
 
     occs = (

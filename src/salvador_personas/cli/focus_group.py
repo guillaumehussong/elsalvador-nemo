@@ -28,31 +28,31 @@ def main() -> None:
     load_project_env()
 
     parser = argparse.ArgumentParser(
-        description="Focus group virtuel B2C — réactions personas salvadoriennes (Stage 1)."
+        description="Virtual B2C focus group — Salvadoran persona reactions (Stage 1)."
     )
     parser.add_argument(
         "--stimulus",
         "-s",
         required=True,
-        help="Texte publicitaire / hook / prix à tester",
+        help="Ad copy / hook / price to test",
     )
-    parser.add_argument("-n", type=int, default=DEFAULT_N, help=f"Nombre de personas (défaut: {DEFAULT_N})")
+    parser.add_argument("-n", type=int, default=DEFAULT_N, help=f"Number of personas (default: {DEFAULT_N})")
     parser.add_argument("--seed", type=int, default=None)
     parser.add_argument("--department", action="append", dest="departments")
     parser.add_argument("--municipality", action="append", dest="municipalities")
-    parser.add_argument("--yes", "-y", action="store_true", help="Confirmer sans prompt si N>15")
+    parser.add_argument("--yes", "-y", action="store_true", help="Skip confirmation prompt when N>15")
     parser.add_argument(
         "--estimate-only",
         action="store_true",
-        help="Afficher l'estimation de coût sans appeler le LLM",
+        help="Show cost estimate without calling the LLM",
     )
     args = parser.parse_args()
 
     if args.n < 1:
-        console.print("[red]N doit être ≥ 1[/red]")
+        console.print("[red]N must be ≥ 1[/red]")
         sys.exit(1)
     if args.n > MAX_N:
-        console.print(f"[red]Plafond dur : N≤{MAX_N}[/red]")
+        console.print(f"[red]Hard cap: N≤{MAX_N}[/red]")
         sys.exit(1)
 
     try:
@@ -68,32 +68,32 @@ def main() -> None:
     gen = gen.filter(filt)
     available = gen.count_filtered()
     if args.n > available:
-        console.print(f"[red]Seulement {available} personas après filtres[/red]")
+        console.print(f"[red]Only {available} personas match filters[/red]")
         sys.exit(1)
 
     personas = gen.sample(args.n, seed=args.seed)
     est = estimate_run_cost_usd(personas, args.stimulus)
 
-    table = Table(title="Estimation coût (avant run)")
-    table.add_column("Métrique")
-    table.add_column("Valeur")
+    table = Table(title="Cost estimate (before run)")
+    table.add_column("Metric")
+    table.add_column("Value")
     table.add_row("Personas", str(args.n))
-    table.add_row("Tokens entrée (est.)", str(est["estimated_input_tokens"]))
-    table.add_row("Tokens sortie (est.)", str(est["estimated_output_tokens"]))
-    table.add_row("Coût estimé (USD)", f"${est['estimated_cost_usd']:.4f}")
+    table.add_row("Input tokens (est.)", str(est["estimated_input_tokens"]))
+    table.add_row("Output tokens (est.)", str(est["estimated_output_tokens"]))
+    table.add_row("Estimated cost (USD)", f"${est['estimated_cost_usd']:.4f}")
     console.print(table)
 
     if args.estimate_only:
         return
 
     if args.n > CONFIRM_ABOVE_N and not args.yes:
-        answer = input(f"N={args.n} > {CONFIRM_ABOVE_N}. Continuer ? [y/N] ").strip().lower()
-        if answer not in ("y", "yes", "o", "oui"):
-            console.print("Annulé.")
+        answer = input(f"N={args.n} > {CONFIRM_ABOVE_N}. Continue? [y/N] ").strip().lower()
+        if answer not in ("y", "yes"):
+            console.print("Cancelled.")
             sys.exit(0)
 
     client = create_llm_client()
-    console.print(f"[cyan]Modèle : {client.model} — {args.n} appels LLM…[/cyan]")
+    console.print(f"[cyan]Model: {client.model} — {args.n} LLM calls…[/cyan]")
 
     run = run_focus_group(client=client, personas=personas, stimulus=args.stimulus, seed=args.seed)
 
@@ -106,15 +106,15 @@ def main() -> None:
         encoding="utf-8",
     )
 
-    console.print(f"\n[green]Résultat → {out_path}[/green]")
-    console.print(f"Score moyen : {run.aggregate.mean_interest_score}/10")
-    console.print(f"Sentiments : {run.aggregate.sentiment_counts}")
+    console.print(f"\n[green]Result → {out_path}[/green]")
+    console.print(f"Mean score: {run.aggregate.mean_interest_score}/10")
+    console.print(f"Sentiments: {run.aggregate.sentiment_counts}")
     if run.aggregate.top_objections:
-        console.print("Top objections :")
+        console.print("Top objections:")
         for obj in run.aggregate.top_objections:
             console.print(f"  • {obj}")
     if run.cost_actual_usd is not None:
-        console.print(f"Coût réel (est.) : ${run.cost_actual_usd:.4f} ({run.total_tokens} tokens)")
+        console.print(f"Actual cost (est.): ${run.cost_actual_usd:.4f} ({run.total_tokens} tokens)")
 
 
 if __name__ == "__main__":

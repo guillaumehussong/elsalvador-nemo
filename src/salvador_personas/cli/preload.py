@@ -9,20 +9,20 @@ from salvador_personas.dataset.loader import preload
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Télécharge le dataset HF et construit le cache enrichi.")
-    parser.add_argument("--skip-enrich", action="store_true", help="Ne pas lancer build_enriched_cache")
-    parser.add_argument("--force-enrich", action="store_true", help="Reconstruire le parquet enrichi")
+    parser = argparse.ArgumentParser(description="Download the HF dataset and build the enriched cache.")
+    parser.add_argument("--skip-enrich", action="store_true", help="Skip build_enriched_cache")
+    parser.add_argument("--force-enrich", action="store_true", help="Rebuild the enriched parquet")
     args = parser.parse_args()
 
-    print("Étape 1/2 — preload HuggingFace…")
+    print("Step 1/2 — HuggingFace preload…")
     meta = preload()
     print(json.dumps({k: meta[k] for k in ("row_count", "hf_cache_bytes", "columns") if k in meta}, indent=2))
 
     if args.skip_enrich:
-        print("Enrichissement ignoré (--skip-enrich).")
+        print("Enrichment skipped (--skip-enrich).")
         return
 
-    print("Étape 2/2 — build cache enrichi (peut prendre plusieurs minutes)…")
+    print("Step 2/2 — build enriched cache (may take several minutes)…")
     meta = build_enriched_cache(force=args.force_enrich)
     print(
         json.dumps(
@@ -30,7 +30,7 @@ def main() -> None:
             indent=2,
         )
     )
-    print("Terminé.")
+    print("Done.")
 
 
 if __name__ == "__main__":

@@ -6,7 +6,7 @@ import uvicorn
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="API FastAPI — focus group (clé LLM côté serveur)")
+    parser = argparse.ArgumentParser(description="FastAPI server — focus group (LLM key server-side only)")
     parser.add_argument("--host", default="127.0.0.1")
     parser.add_argument("--port", type=int, default=8080)
     parser.add_argument("--reload", action="store_true")

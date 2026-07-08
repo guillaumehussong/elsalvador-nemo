@@ -23,8 +23,8 @@ class PersonaGenerator:
         self._filter: PersonaFilter | None = None
         if not self._parquet.exists():
             raise FileNotFoundError(
-                f"Cache enrichi absent : {self._parquet}\n"
-                "Lancer : sv-preload (ou python scripts/preload_dataset.py && "
+                f"Enriched cache missing: {self._parquet}\n"
+                "Run: sv-preload (or python scripts/preload_dataset.py && "
                 "python scripts/build_enriched_cache.py)"
             )
 

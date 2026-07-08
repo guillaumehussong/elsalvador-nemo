@@ -1,54 +1,49 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="color-scheme" content="dark" />
     <title>Focus group — Salvador Personas</title>
-    <link rel="stylesheet" href="/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@500;700&family=IBM+Plex+Sans:wght@400;500&display=swap"
+    />
+    <link rel="stylesheet" href="/style.css?v=2" />
   </head>
   <body>
+    <header class="header">
+      <div class="header-title">
+        <h1 data-i18n="h1">Focus group virtual</h1>
+        <p class="subtitle" data-i18n="subtitle">Reacciones B2C · personas Nemotron · El Salvador</p>
+      </div>
+      <div class="lang-switch" role="group" aria-label="Language">
+        <button type="button" class="lang-btn" data-lang="es">ES</button>
+        <button type="button" class="lang-btn" data-lang="en">EN</button>
+      </div>
+    </header>
     <main class="page">
-      <header class="header">
-        <h1>Focus group virtuel</h1>
-        <p class="subtitle">Réactions B2C · personas Nemotron · El Salvador</p>
-      </header>
-
       <details class="intro panel">
-        <summary class="intro-summary">What is this?</summary>
+        <summary class="intro-summary" data-i18n="intro_summary">¿Qué es esto?</summary>
         <div class="intro-body">
-          <p class="intro-lead">
-            This tool runs a <strong>virtual focus group</strong> against synthetic Salvadoran consumer
-            personas from the Nemotron dataset. You paste a stimulus (ad, offer, hook); the system samples
-            <em>N</em> matching personas and asks an LLM to role-play each one in Salvadoran Spanish.
-          </p>
+          <p class="intro-lead" data-i18n="intro_lead"></p>
           <ul class="intro-list">
-            <li>
-              <strong>You get:</strong> mean interest score (1–10), sentiment breakdown, recurring
-              objections, and sample verbatim quotes.
-            </li>
-            <li>
-              <strong>Use it for:</strong> early messaging tests, price sensitivity, objection mining before
-              spending on real field research.
-            </li>
-            <li>
-              <strong>Not a substitute for:</strong> real users, legal/compliance review, or statistically
-              representative surveys.
-            </li>
+            <li data-i18n="intro_li1"></li>
+            <li data-i18n="intro_li2"></li>
+            <li data-i18n="intro_li3"></li>
           </ul>
-          <p class="intro-note">
-            Each persona = one LLM call (~8 s). Estimate cost before running. Responses are in Spanish;
-            write your stimulus in Spanish when possible.
-          </p>
+          <p class="intro-note" data-i18n="intro_note"></p>
         </div>
       </details>
 
       <form id="focusForm" class="panel">
-        <h2 class="form-title">Configure a run</h2>
+        <h2 class="form-title" data-i18n="form_title">Configurar una corrida</h2>
 
         <label class="field">
           <span class="field-label">
-            <span>Stimulus (pub / hook / prix)</span>
+            <span data-i18n="stimulus_label">Estímulo (anuncio / hook / precio)</span>
             <span class="info-wrap">
               <button
                 type="button"
@@ -60,17 +55,14 @@
               >
                 i
               </button>
-              <span id="help-stimulus" class="info-popover" role="tooltip">
-                The message you want to test: ad copy, landing hook, pricing line, or product pitch. This
-                text is injected into every persona prompt. Spanish stimuli tend to produce more natural
-                verbatims; keep it concrete (price, location, benefit, CTA).
-              </span>
+              <span id="help-stimulus" class="info-popover" role="tooltip" data-i18n="help_stimulus"></span>
             </span>
           </span>
           <textarea
             id="stimulus"
             rows="5"
             required
+            data-i18n-placeholder="stimulus_placeholder"
             placeholder="Ej. Suscripción $10/mes, acceso ilimitado a clases de yoga prenatal en Antiguo Cuscatlán…"
           ></textarea>
         </label>
@@ -78,7 +70,7 @@
         <div class="row">
           <label class="field">
             <span class="field-label">
-              <span>N personas</span>
+              <span data-i18n="n_label">N personas</span>
               <span class="info-wrap">
                 <button
                   type="button"
@@ -90,17 +82,14 @@
                 >
                   i
                 </button>
-                <span id="help-n" class="info-popover" role="tooltip">
-                  Number of virtual participants (1–25). Default 8 balances cost and signal. Higher N
-                  smooths outliers but increases LLM cost and runtime (~8 s per persona).
-                </span>
+                <span id="help-n" class="info-popover" role="tooltip" data-i18n="help_n"></span>
               </span>
             </span>
             <input id="n" type="number" min="1" max="25" value="8" />
           </label>
           <label class="field">
             <span class="field-label">
-              <span>Seed (optionnel)</span>
+              <span data-i18n="seed_label">Seed (opcional)</span>
               <span class="info-wrap">
                 <button
                   type="button"
@@ -112,10 +101,7 @@
                 >
                   i
                 </button>
-                <span id="help-seed" class="info-popover" role="tooltip">
-                  Optional integer for reproducible sampling. Same seed + same filters gives the same personas
-                  on rerun. Leave empty for a random draw each time.
-                </span>
+                <span id="help-seed" class="info-popover" role="tooltip" data-i18n="help_seed"></span>
               </span>
             </span>
             <input id="seed" type="number" placeholder="42" />
@@ -124,7 +110,7 @@
 
         <label class="field">
           <span class="field-label">
-            <span>Département (optionnel)</span>
+            <span data-i18n="dept_label">Departamento (opcional)</span>
             <span class="info-wrap">
               <button
                 type="button"
@@ -136,19 +122,19 @@
               >
                 i
               </button>
-              <span id="help-department" class="info-popover" role="tooltip">
-                Restrict sampling to one department, e.g. <code>San Salvador</code>, <code>La Libertad</code>,
-                <code>Santa Ana</code>. Exact spelling required (see map dataset). Leave empty for all of El
-                Salvador. Municipality filter is CLI-only for now.
-              </span>
+              <span id="help-department" class="info-popover" role="tooltip" data-i18n="help_department"></span>
             </span>
           </span>
           <input id="department" type="text" placeholder="San Salvador" />
         </label>
 
         <div class="actions">
-          <button type="button" id="estimateBtn" class="btn secondary">Estimer le coût</button>
-          <button type="submit" id="runBtn" class="btn primary">Lancer le focus group</button>
+          <button type="button" id="estimateBtn" class="btn secondary" data-i18n="estimate_btn">
+            Estimar el costo
+          </button>
+          <button type="submit" id="runBtn" class="btn primary" data-i18n="run_btn">
+            Lanzar el focus group
+          </button>
           <span class="info-wrap actions-info">
             <button
               type="button"
@@ -160,17 +146,16 @@
             >
               i
             </button>
-            <span id="help-actions" class="info-popover" role="tooltip">
-              <strong>Estimate cost:</strong> token/cost preview, no LLM calls.
-              <strong>Run focus group:</strong> executes N persona interviews and saves JSON under
-              <code>data/runs/</code> on the server.
-            </span>
+            <span id="help-actions" class="info-popover" role="tooltip" data-i18n="help_actions"></span>
           </span>
         </div>
 
         <p id="confirmHint" class="hint hidden">
-          N &gt; 15 : cochez pour confirmer le coût avant de lancer.
-          <label class="confirm"><input id="confirm" type="checkbox" /> Je confirme</label>
+          <span data-i18n="confirm_hint"></span>
+          <label class="confirm">
+            <input id="confirm" type="checkbox" />
+            <span data-i18n="confirm_label">Confirmo</span>
+          </label>
           <span class="info-wrap confirm-info">
             <button
               type="button"
@@ -182,10 +167,7 @@
             >
               i
             </button>
-            <span id="help-confirm" class="info-popover" role="tooltip">
-              Runs above 15 personas require explicit confirmation because LLM cost and latency scale
-              linearly.
-            </span>
+            <span id="help-confirm" class="info-popover" role="tooltip" data-i18n="help_confirm"></span>
           </span>
         </p>
       </form>
@@ -194,13 +176,8 @@
       <section id="resultPanel" class="panel hidden" aria-live="polite"></section>
       <p id="error" class="error hidden" role="alert"></p>
     </main>
-    <footer class="footer">
-      Personas :
-      <a href="https://huggingface.co/datasets/nvidia/Nemotron-Personas-El-Salvador" target="_blank" rel="noopener"
-        >NVIDIA / WideLabs</a
-      >
-      (CC BY 4.0) · Clé LLM jamais exposée au navigateur · LOCAL ONLY
-    </footer>
-    <script src="/app.js"></script>
+    <footer class="footer" data-i18n="footer"></footer>
+    <script src="/i18n.js?v=2"></script>
+    <script src="/app.js?v=2"></script>
   </body>
 </html>
